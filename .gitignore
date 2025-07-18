@@ -1,3 +1,6 @@
+# --- IDEs ---
+.vscode/
+
 # --- Build Artifacts ---
 /build/
 /out/

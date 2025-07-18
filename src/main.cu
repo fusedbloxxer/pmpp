@@ -1,20 +1,20 @@
 // burn_gpu.cu
+#include <chrono>
 #include <cuda_runtime.h>
 #include <iostream>
-#include <chrono>
 
 // simple macro to check CUDA calls
-#define CUDA_CHECK(call)                                                     \
-    do                                                                       \
-    {                                                                        \
-        cudaError_t err = call;                                              \
-        if (err != cudaSuccess)                                              \
-        {                                                                    \
-            std::cerr << "CUDA error at " << __FILE__ << ":" << __LINE__     \
-                      << " code=" << err << " \"" << cudaGetErrorString(err) \
-                      << "\"" << std::endl;                                  \
-            std::exit(EXIT_FAILURE);                                         \
-        }                                                                    \
+#define CUDA_CHECK(call)                                                             \
+    do                                                                               \
+    {                                                                                \
+        cudaError_t err = call;                                                      \
+        if (err != cudaSuccess)                                                      \
+        {                                                                            \
+            std::cerr << "CUDA error at " << __FILE__ << ":" << __LINE__             \
+                      << " code=" << err << " \"" << cudaGetErrorString(err) << "\"" \
+                      << std::endl;                                                  \
+            std::exit(EXIT_FAILURE);                                                 \
+        }                                                                            \
     } while (0)
 
 // kernel: for each element, do a little float arithmetic loop
@@ -42,9 +42,8 @@ void checkGPUDevices()
     {
         cudaDeviceProp prop;
         cudaGetDeviceProperties(&prop, i);
-        std::cout
-            << "Device " << i << ": " << prop.name
-            << " with " << (prop.totalGlobalMem >> 20) << " MiB\n";
+        std::cout << "Device " << i << ": " << prop.name << " with "
+                  << (prop.totalGlobalMem >> 20) << " MiB\n";
     }
 }
 
@@ -54,22 +53,22 @@ int main()
     checkGPUDevices();
 
     // pick GPU #1 (zero‑based). 0 = first card, 1 = second card, etc.
-    int device_id = 1;
+    int device_id = 0;
 
     cudaError_t err = cudaSetDevice(device_id);
     if (err != cudaSuccess)
     {
-        std::cerr << "Failed to set CUDA device #" << device_id
-                  << ": " << cudaGetErrorString(err) << "\n";
+        std::cerr << "Failed to set CUDA device #" << device_id << ": "
+                  << cudaGetErrorString(err) << "\n";
         return EXIT_FAILURE;
     }
 
     // 5 GiB of floats
-    const size_t bytes = 5ULL * 1024 * 1024 * 1024;
+    const size_t bytes = 1ULL * 1024 * 1024 * 1024;
     const size_t N = bytes / sizeof(float);
 
-    std::cout << "Allocating " << bytes / (1024.0 * 1024 * 1024) << " GiB on GPU ("
-              << N << " floats)..." << std::endl;
+    std::cout << "Allocating " << bytes / (1024.0 * 1024 * 1024)
+              << " GiB on GPU (" << N << " floats)..." << std::endl;
 
     float *d_data = nullptr;
     CUDA_CHECK(cudaMalloc(&d_data, bytes));
