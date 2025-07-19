@@ -15,9 +15,12 @@ set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # Create output target
 add_executable(pmpp src/main.cu)
-
-# Set CUDA architecture to native for the current machine
 set_property(TARGET pmpp PROPERTY CUDA_ARCHITECTURES native)
 
-# Enable verbose warnings for both host and device code and enable debug information
+# Add subprojects
+add_subdirectory(src/chapter_02)
+
+# Set compile options for the project
+target_link_libraries(pmpp PUBLIC chapter_02)
 target_compile_options(pmpp PRIVATE -Wall -Wextra)
+target_include_directories(pmpp PUBLIC "src/chapter_02")
