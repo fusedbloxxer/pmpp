@@ -23,8 +23,8 @@ void chapter_02::sample::vecAdd(float *A_h, float *B_h, float *C_h, int n)
     cudaMalloc(&C_d, bytes);
 
     // Host -> Device
-    cudaMemcpy(A_d, A_h, bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(B_d, B_h, bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(A_d, A_h, bytes, cudaMemcpyKind::cudaMemcpyHostToDevice);
+    cudaMemcpy(B_d, B_h, bytes, cudaMemcpyKind::cudaMemcpyHostToDevice);
 
     // Launch kernel
     vecAddKernel<<<ceil(n / 256.0), 256>>>(A_d, B_d, C_d, n);

@@ -4,7 +4,7 @@
 
 int main()
 {
-    chapter_02::sample::main();
+    chapter_02::exercise::main();
 
     return 0;
 }
