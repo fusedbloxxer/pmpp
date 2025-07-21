@@ -1,3 +1,3 @@
 #pragma once
 
-#include "sample/multi_dim.h"
+#include "sample/color_to_grayscale.h"

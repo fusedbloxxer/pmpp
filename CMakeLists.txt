@@ -14,17 +14,33 @@ set(CMAKE_CUDA_STANDARD 20)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 # Create output target
-add_executable(pmpp src/main.cu)
+add_executable(pmpp src/main.cpp)
+
+# Set CUDA to build for the native host GPU
 set_property(TARGET pmpp PROPERTY CUDA_ARCHITECTURES native)
 
-# Add subprojects
+# Set where OpenCV_ROOT can be found
+set(OpenCV_ROOT "${VCPKG_INSTALLED_DIR}/x64-linux/share/opencv4")
+
+# Find each chapter's cmake file
 add_subdirectory(src/chapter_02)
 add_subdirectory(src/chapter_03)
+add_subdirectory(src/shared)
 
-# Link libraries to the target
-target_link_libraries(pmpp PUBLIC chapter_02)
-target_link_libraries(pmpp PUBLIC chapter_03)
-target_include_directories(pmpp PUBLIC "src/chapter_02" PUBLIC "src/chapter_03")
+# Find a package using config mode (<PackageName>Config.cmake)
+find_package(OpenCV REQUIRED)
 
-# Set compile options for the project
-target_compile_options(pmpp PRIVATE -Wall -Wextra)
+# Add headers such that the libs can be referenced in the code
+target_include_directories(pmpp PUBLIC "src/shared")
+target_include_directories(pmpp PUBLIC "src/chapter_03")
+target_include_directories(pmpp PUBLIC "src/chapter_02")
+target_include_directories(pmpp PUBLIC "${OpenCV_INCLUDE_DIRS}")
+
+# Compile options for the target executable
+target_compile_options(pmpp PUBLIC -Wall -Wextra)
+
+# Link the libraries such that they can be referenced in the code
+target_link_libraries(pmpp PUBLIC shared chapter_02 chapter_03 ${OpenCV_LIBS})
+
+# Copy resources to buiild output directory
+file(COPY src/resources DESTINATION .)

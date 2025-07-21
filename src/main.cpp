@@ -1,7 +1,11 @@
+#include <filesystem>
 #include <iostream>
 
 #include "chapter_02.h"
 #include "chapter_03.h"
+#include "shared.h"
+
+namespace fs = std::filesystem;
 
 int main()
 {
