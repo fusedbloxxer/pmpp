@@ -19,8 +19,12 @@ set_property(TARGET pmpp PROPERTY CUDA_ARCHITECTURES native)
 
 # Add subprojects
 add_subdirectory(src/chapter_02)
+add_subdirectory(src/chapter_03)
+
+# Link libraries to the target
+target_link_libraries(pmpp PUBLIC chapter_02)
+target_link_libraries(pmpp PUBLIC chapter_03)
+target_include_directories(pmpp PUBLIC "src/chapter_02" PUBLIC "src/chapter_03")
 
 # Set compile options for the project
-target_link_libraries(pmpp PUBLIC chapter_02)
 target_compile_options(pmpp PRIVATE -Wall -Wextra)
-target_include_directories(pmpp PUBLIC "src/chapter_02")
