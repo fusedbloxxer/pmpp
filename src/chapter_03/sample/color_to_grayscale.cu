@@ -31,7 +31,7 @@ __global__ void colorToGrayscaleConversion(unsigned char *Pin_d, unsigned char *
     Pout_d[grayOffset] = 0.21f * r + 0.71f * g + 0.07f * b;
 }
 
-int chapter_03::sample::main()
+int chapter_03::sample::color_to_grayscale::main()
 {
     const auto &cwd = shared::globals::get_instance()->get_res();
     const auto &img_path_gray = cwd / "cityscape_gray.png";

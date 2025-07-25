@@ -4,6 +4,8 @@ set(
     # samples
     sample/color_to_grayscale.h
     sample/color_to_grayscale.cu
+    sample/blur_kernel.h
+    sample/blur_kernel.cu
 )
 
 add_library(chapter_03 "${SOURCE_FILES}")

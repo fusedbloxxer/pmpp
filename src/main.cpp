@@ -9,7 +9,7 @@ namespace fs = std::filesystem;
 
 int main()
 {
-    chapter_03::sample::main();
+    chapter_03::sample::blur_kernel::main();
 
     return 0;
 }
