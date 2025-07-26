@@ -44,16 +44,16 @@ void image_blur(cv::Mat &img, const int kernel_size)
     uchar *Img_inp = nullptr;
     uchar *Img_out = nullptr;
 
-    int c = img.channels();
-    int h = img.rows;
-    int w = img.cols;
-    int bytes = c * h * w * sizeof(uchar);
+    uint c = img.channels();
+    uint h = img.rows;
+    uint w = img.cols;
+    uint bytes = c * h * w * sizeof(uchar);
 
     cudaMalloc(&Img_inp, bytes);
     cudaMalloc(&Img_out, bytes);
 
     cudaMemcpy(Img_inp, img.datastart, bytes, cudaMemcpyKind::cudaMemcpyHostToDevice);
-    dim3 gridDim{ceil(w / 16.0), ceil(h / 16.0), c};
+    dim3 gridDim{static_cast<uint>(ceil(w / 16)), static_cast<uint>(ceil(h / 16)), c};
     dim3 blockDim{16, 16, 1};
     blur_kernel<<<gridDim, blockDim>>>(Img_inp, Img_out, c, h, w, kernel_size);
     cudaMemcpy((void *)img.datastart, Img_out, bytes, cudaMemcpyKind::cudaMemcpyDeviceToHost);
@@ -75,7 +75,7 @@ int chapter_03::sample::blur_kernel::main()
     cv::Mat img_out = img_inp.clone();
     cv::cvtColor(img_out, img_out, cv::ColorConversionCodes::COLOR_BGR2RGB);
 
-    image_blur(img_out, 3);
+    image_blur(img_out, 7);
 
     cv::cvtColor(img_out, img_out, cv::ColorConversionCodes::COLOR_RGB2BGR);
     cv::imshow("Output Image", img_out);

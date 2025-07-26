@@ -8,9 +8,11 @@
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
+        "USE_SYSTEM_NVTX": "ON",
         "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
         "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
         "CMAKE_CUDA_COMPILER": "/opt/cuda/bin/nvcc",
+        "CMAKE_PREFIX_PATH": "${sourceDir}/lib/libtorch",
         "CMAKE_TOOLCHAIN_FILE": "~/.local/share/vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
     }

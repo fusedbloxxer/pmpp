@@ -79,14 +79,13 @@ int chapter_02::exercise::main()
     std::cout << std::endl;
 
     auto exercise_09 = "9. Consider the following CUDA kernel and the corresponding host function that calls it: ";
+    std::cout << exercise_09 << std::endl;
     std::cout << "a. 128" << std::endl;
     std::cout << "b. 200064" << std::endl;
     std::cout << "c. 1563" << std::endl;
     std::cout << "d. 200064" << std::endl;
     std::cout << "e. 200000" << std::endl;
     std::cout << std::endl;
-
-    
 
     return 0;
 }

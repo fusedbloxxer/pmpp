@@ -13,8 +13,34 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_STANDARD 20)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
-# Create output target
-add_executable(pmpp src/main.cpp)
+# List all source files
+set(
+    SOURCE_FILES
+
+    # main
+    src/main.cpp
+
+    # shared
+    src/shared/shared.cpp
+    src/shared/shared.h
+
+    # chapter_02
+    src/chapter_02/exercise/exercises.cpp
+    src/chapter_02/exercise/exercises.h
+    src/chapter_02/sample/vec_add_kernel.cu
+    src/chapter_02/sample/vec_add_kernel.h
+    src/chapter_02/chapter_02.h
+
+    # chapter_03
+    src/chapter_03/sample/blur_kernel.cu
+    src/chapter_03/sample/blur_kernel.h
+    src/chapter_03/sample/color_to_grayscale.cu
+    src/chapter_03/sample/color_to_grayscale.h
+    src/chapter_03/chapter_03.h
+)
+
+# Create executable target from source files
+add_executable(pmpp ${SOURCE_FILES})
 
 # Set CUDA to build for the native host GPU
 set_property(TARGET pmpp PROPERTY CUDA_ARCHITECTURES native)
@@ -22,25 +48,18 @@ set_property(TARGET pmpp PROPERTY CUDA_ARCHITECTURES native)
 # Set where OpenCV_ROOT can be found
 set(OpenCV_ROOT "${VCPKG_INSTALLED_DIR}/x64-linux/share/opencv4")
 
-# Find each chapter's cmake file
-add_subdirectory(src/chapter_02)
-add_subdirectory(src/chapter_03)
-add_subdirectory(src/shared)
-
-# Find a package using config mode (<PackageName>Config.cmake)
+# Add external libraries
 find_package(OpenCV REQUIRED)
+find_package(Torch REQUIRED)
 
 # Add headers such that the libs can be referenced in the code
-target_include_directories(pmpp PUBLIC "src/shared")
-target_include_directories(pmpp PUBLIC "src/chapter_03")
-target_include_directories(pmpp PUBLIC "src/chapter_02")
 target_include_directories(pmpp PUBLIC "${OpenCV_INCLUDE_DIRS}")
 
 # Compile options for the target executable
 target_compile_options(pmpp PUBLIC -Wall -Wextra)
 
 # Link the libraries such that they can be referenced in the code
-target_link_libraries(pmpp PUBLIC shared chapter_02 chapter_03 ${OpenCV_LIBS})
+target_link_libraries(pmpp PUBLIC ${OpenCV_LIBS} ${TORCH_LIBRARIES})
 
 # Copy resources to buiild output directory
 file(COPY src/resources DESTINATION .)
