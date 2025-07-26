@@ -25,8 +25,8 @@ set(
     src/shared/shared.h
 
     # chapter_02
-    src/chapter_02/exercise/exercises.cpp
-    src/chapter_02/exercise/exercises.h
+    src/chapter_02/exercise/exercise.cpp
+    src/chapter_02/exercise/exercise.h
     src/chapter_02/sample/vec_add_kernel.cu
     src/chapter_02/sample/vec_add_kernel.h
     src/chapter_02/chapter_02.h
@@ -36,6 +36,12 @@ set(
     src/chapter_03/sample/blur_kernel.h
     src/chapter_03/sample/color_to_grayscale.cu
     src/chapter_03/sample/color_to_grayscale.h
+    src/chapter_03/exercise/exercise.h
+    src/chapter_03/exercise/exercise.cpp
+    src/chapter_03/exercise/mm_kernel.cu
+    src/chapter_03/exercise/mm_kernel.h
+    src/chapter_03/exercise/mm.cpp
+    src/chapter_03/exercise/mm.h
     src/chapter_03/chapter_03.h
 )
 
@@ -56,7 +62,7 @@ find_package(Torch REQUIRED)
 target_include_directories(pmpp PUBLIC "${OpenCV_INCLUDE_DIRS}")
 
 # Compile options for the target executable
-target_compile_options(pmpp PUBLIC -Wall -Wextra)
+target_compile_options(pmpp PUBLIC -Wall -Wextra -O0)
 
 # Link the libraries such that they can be referenced in the code
 target_link_libraries(pmpp PUBLIC ${OpenCV_LIBS} ${TORCH_LIBRARIES})
