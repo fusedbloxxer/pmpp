@@ -43,6 +43,13 @@ set(
     src/chapter_03/exercise/mm.cpp
     src/chapter_03/exercise/mm.h
     src/chapter_03/chapter_03.h
+
+    # chapter_04
+    src/chapter_04/sample/cuda_device_props.cu
+    src/chapter_04/sample/cuda_device_props.h
+    src/chapter_04/exercise/exercise.cpp
+    src/chapter_04/exercise/exercise.h
+    src/chapter_04/chapter_04.h
 )
 
 # Create executable target from source files
